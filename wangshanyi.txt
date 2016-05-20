@@ -1,0 +1,10 @@
+1 针对每首歌曲建立一个预测模型
+2 对于每首歌曲，X为（publish_time, song_init_plays, language, gender, gmt_create）
+               Y为 播放数量 
+  进行回归预测。如果这样做的话，publish_time, song_init_plays, language, gender为定值，只有gmt_create 为变量，这么做可以吗？还是X只为gmt_create?
+  想用这个http://blog.sina.com.cn/s/blog_718848730100z1ut.html 还没有看，准备研究下。
+3 对每个艺人所有歌曲的预测模型加起来
+
+问题：
+艺人的歌曲的数量神马的都没有考虑，还有publish_time影响应该挺大的。
+用户_id 没有用到，要对用户喜好进行聚类吗？
