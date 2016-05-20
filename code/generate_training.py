@@ -8,7 +8,7 @@ import os
 
 #load data to csv
 def load_data(filename):
-    fw = open('song_info.csv','w')
+    fw = open('../data/song_info.csv','w')
     fw.write('song_Id,publish_time,song_init_plays,language,gender\n')
     for song in glob.glob(filename+'/*/song_info'):
         with open(song,'r') as f:
@@ -20,7 +20,7 @@ def load_data(filename):
                     fw.write(el+',')
                 fw.write(content[-1]+'\n')
     fw.close()
-    fw = open('action_info.csv','w')
+    fw = open('../data/action_info.csv','w')
     fw.write('song_Id,user_Id,gmt_create,action_type,Ds\n')
     for j,user in enumerate(glob.glob(filename+'/*/action_info')):
         song_id = user.split('/')[-2]
@@ -46,7 +46,7 @@ def sorted_data():
                 s += i + ','
             s += content[-2]
             action_dic[content[-1]].append(s)
-    with open('action_info_sorted.csv','w') as f:
+    with open('../data/action_info_sorted.csv','w') as f:
         f.write(head_line)
         for ele in sorted(action_dic):
             for action_ele in action_dic[ele]:
@@ -56,7 +56,7 @@ def sorted_data():
 def ensemble_data():
     action_playtime_dic = {} #play number one song in same day 
     action_type_dic = {} #type one song in same day
-    with open('action_info_sorted.csv','r') as f:
+    with open('../data/action_info_sorted.csv','r') as f:
         f.readline()
         for data in f:
             content = data.strip().split(',')
@@ -68,8 +68,8 @@ def ensemble_data():
             action_type_dic[key].append(content[-2])
     #ensemble data start
     visited = []
-    fw_en = open('action_info_ensemble.csv','w')
-    with open('action_info_sorted.csv','r') as f:
+    fw_en = open('../data/action_info_ensemble.csv','w')
+    with open('../data/action_info_sorted.csv','r') as f:
         #fw_en.write('song_Id,user_Id,gmt_create_total,action_type1,action_type2,action_type3,Ds\n')
         fw_en.write('song_Id,gmt_create_total,action_type1,action_type2,action_type3,Ds\n')
         f.readline()
@@ -103,7 +103,7 @@ def combine_data(filename):
     #fw.write('song_Id,user_Id,gmt_create_total,action_type1,action_type2,action_type3,Ds,publish_time,song_init_plays,language,gender\n')
     fw.write('song_Id,gmt_create_total,action_type2,action_type3,Ds,publish_time,song_init_plays,language,gender,action_type1\n')
     song_dic = {}
-    with open('./song_info.csv','r') as f:
+    with open('../data/song_info.csv','r') as f:
         f.readline()
         for data in f:
             content = data.strip().split(',')
@@ -113,7 +113,7 @@ def combine_data(filename):
             st += content[-1]
             song_dic.setdefault(content[0],st)
     #print song_dic
-    with open('./action_info_ensemble.csv','r') as f:
+    with open('../data/action_info_ensemble.csv','r') as f:
         f.readline()
         for data in f:
             #print data
