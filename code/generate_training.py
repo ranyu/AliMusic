@@ -35,7 +35,7 @@ def load_data(filename):
 # sort action info by date
 def sorted_data():
     action_dic = {}
-    with open('action_info.csv','r') as f:
+    with open('../data/action_info.csv','r') as f:
         head_line = f.readline()
         for data in f:
             content = data.strip().split(',')
