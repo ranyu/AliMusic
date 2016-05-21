@@ -10,11 +10,12 @@ from statsmodels.graphics.api import qqplot
 def ARMA_process(filename):
     dateparse = lambda dates: pd.datetime.strptime(dates, '%Y%m%d')
     data = pd.read_csv(filename,parse_dates='Date', index_col='Date',date_parser=dateparse)
-    print (data.index)
     print (data)
+    data.to_csv('1.csv')
+    data = data.asfreq('D')
+    data.fillna(0,inplace=True)
     data['play'] = data['play'].astype(float) 
     #print (type(data['play']['2015-06-01']))
-    #quit()
     data.plot(figsize=(12,8));
     #plt.show()
     fig = plt.figure(figsize=(12,8))
@@ -27,7 +28,7 @@ def ARMA_process(filename):
     print (data)
     arma_mod20 = sm.tsa.ARMA(data, (3,0)).fit()
     print(arma_mod20.params)
-    arma_mod30 = sm.tsa.ARMA(data, (13,0)).fit()
+    arma_mod30 = sm.tsa.ARMA(data, (3,0)).fit()
     print(arma_mod20.aic, arma_mod20.bic, arma_mod20.hqic)
     print(arma_mod30.params)
     sm.stats.durbin_watson(arma_mod30.resid.values)
@@ -52,23 +53,18 @@ def ARMA_process(filename):
     #plt.show()
 
     predict_sunspots = arma_mod30.predict('2015-08-01', '2015-08-31', dynamic=True)
-    print(predict_sunspots)
+    #print(predict_sunspots)
 
     fig, ax = plt.subplots(figsize=(12, 8))
     #ax = data.ix['2015-03-02':].plot(ax=ax)
     fig = arma_mod30.plot_predict('2015-08-01', '2015-08-31', dynamic=True, ax=ax, plot_insample=False)
-    plt.show()
+    #plt.show()
     return predict_sunspots
-
-def get_submit(predict_result,filename):
-    name = filename.split('/')[-1].split('.')[0] + '_result.csv'
-    with open('../vali_result/'+name,'w') as fw:
-        for i in predict_result:
-            fw.write(i+'\n')
 
 if __name__ == "__main__":
     import glob
-    for filename in glob.glob('../local_train/train_*'):
+    for i,filename in enumerate(glob.glob('../local_train/train_*')):
+        print (i,filename)
         predict_result = ARMA_process(filename)
         name = '../vali_result/'+filename.split('/')[-1].split('.')[0] + '_result.csv'
         predict_result.to_csv(name)
