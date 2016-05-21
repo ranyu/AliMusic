@@ -10,8 +10,7 @@ from statsmodels.graphics.api import qqplot
 def ARMA_process(filename):
     dateparse = lambda dates: pd.datetime.strptime(dates, '%Y%m%d')
     data = pd.read_csv(filename,parse_dates='Date', index_col='Date',date_parser=dateparse)
-    print (data)
-    data.to_csv('1.csv')
+    #print (data)
     data = data.asfreq('D')
     data.fillna(0,inplace=True)
     data['play'] = data['play'].astype(float) 
@@ -25,12 +24,11 @@ def ARMA_process(filename):
     fig = sm.graphics.tsa.plot_pacf(data, lags=40, ax=ax2)
     #plt.show()
 
-    print (data)
     arma_mod20 = sm.tsa.ARMA(data, (3,0)).fit()
-    print(arma_mod20.params)
+    #print(arma_mod20.params)
     arma_mod30 = sm.tsa.ARMA(data, (3,0)).fit()
-    print(arma_mod20.aic, arma_mod20.bic, arma_mod20.hqic)
-    print(arma_mod30.params)
+    #print(arma_mod20.aic, arma_mod20.bic, arma_mod20.hqic)
+    #print(arma_mod30.params)
     sm.stats.durbin_watson(arma_mod30.resid.values)
     fig = plt.figure(figsize=(12,8))
     ax = fig.add_subplot(111)
@@ -49,7 +47,7 @@ def ARMA_process(filename):
     r,q,p = sm.tsa.acf(resid.values.squeeze(), qstat=True)
     data = np.c_[range(1,41), r[1:], q, p]
     table = pd.DataFrame(data, columns=['lag', "AC", "Q", "Prob(>Q)"])
-    print(table.set_index('lag'))
+    #print(table.set_index('lag'))
     #plt.show()
 
     predict_sunspots = arma_mod30.predict('2015-08-01', '2015-08-31', dynamic=True)
