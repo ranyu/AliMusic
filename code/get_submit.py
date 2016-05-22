@@ -8,6 +8,6 @@ with open('../submit/mars_tianchi_artist_plays_predict.csv','w') as fw:
         with open(s,'r') as f:
             for data in f:
                 content = data.strip().split(',')
-                date = content[0]
+                date = content[0].replace('-','')
                 play_number = content[1]
                 fw.write(song_name+','+str(int(round(float(play_number))))+','+date+'\n')
