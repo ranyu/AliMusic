@@ -48,7 +48,7 @@ def F_score(predict_path, base_path):
         else:
             sigma_val = math.sqrt(sigma_sum/k)
             fai_val = math.sqrt(fai_sum)
-            print ("N = %d, Sigma = %f, Fai = %f" % (k, sigma_val, fai_val))
+            #print ("N = %d, Sigma = %f, Fai = %f" % (k, sigma_val, fai_val))
             sigma.append(sigma_val)
             fai.append(fai_val)
 
@@ -77,10 +77,11 @@ def F_score(predict_path, base_path):
     for i in range(len(sigma)):
         f_score += (1 - sigma[i])*fai[i]
 
-    print ("F_Score = %f" % f_score)
+    #print ("F_Score = %f" % f_score)
+    print (f_score)
     return f_score
 
 
 if __name__ == '__main__':
     #F_score("predict.csv", "base.csv")
-    F_score("data2\mars_tianchi_artist_plays_predict.csv", "data2\mars_tianchi_artist_plays_predict.csv")
+    F_score(sys.argv[1],sys.argv[2])
