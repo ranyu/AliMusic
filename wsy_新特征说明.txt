@@ -1,0 +1,9 @@
+新的特征文件为new_feature1的计算方法为：
+val = 0
+for 歌手的每首歌：
+	val += song_init_plays/（时间-publish_time+530)/song_num
+song_init_plays 为歌手的歌的初始热度
+时间为当前时间
+publish_time 歌的出版时间
+song_num 歌曲数量
+
